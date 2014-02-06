@@ -18,7 +18,7 @@ m = 80        # mass of sprinter [kg]
 rho = 1.293   # [kg/m^3] density of air
 Cd = 1.2      # Drag coefficient 
 A = 0.45      # [m^2] front area of runner
-w = -1         # [m/s] wind
+w = 0         # [m/s] wind
 fv = 25.8     # [Ns/m] Driving force coefficient 
 tc = 0.67     # [s] characteristic time
 fc = 488      # [N] initial driving force in crouched position
@@ -41,7 +41,7 @@ def Area(t):
 
 t0 = 0                                  # start time
 t_max = 10                              # stop time of simulation
-timesteps = 10000                         # number of timesteps
+timesteps = 1000                         # number of timesteps
 dt = (t_max - t0)/float(timesteps)      # timestep
 
 t = zeros(timesteps)
