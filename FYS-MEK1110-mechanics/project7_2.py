@@ -4,20 +4,26 @@
 
 from scitools.std import *
 import numpy as np
-
+from math import pi
 ##################################################################
 # Constants
 
-rho = 1.255       # [kg/m^3] density of air, 15degrees Celcius, 0moh.
-V = 1.0           # [m^3] really large balloon!
+Cd = 0.47;        # shapefactor sphere
+radius = 0.3
+A = 4*pi*radius**2
+V = 4/3.0*pi*radius**3
+rho = 1.293       # [kg/m^3] density of air, 20degrees Celcius, 0moh.
+#V = 1.0           # [m^3] really large balloon!
 m = 0.1           # [kg]
 g = 9.81          # [m/s^2]
-Bouyancy = rho*V  # [m/s^2]
-D = 0.1           # [kg/m]
+Bouyancy = rho*V*g  # [m/s^2]
+D = 0.5*rho*Cd*A;   # Dragcoefficient
 eps = 0.001       # Default threshold
 vt_x = 0          # terminal velocity in x direction
 vt_z = 0          # terminal in z
-
+print V
+print A
+print Bouyancy
 ##################################################################
 # initial conditions
 t0 = 0               # [s]
@@ -68,7 +74,9 @@ for i in range(N-1):
 
     t[i+1] = t[i] + dt
     
-
+Fd[-1,:] = Fd[-2,:]
+B[-1,:] = B[-2,:]
+G[-1,:] = G[-2,:]
 
 ##################################################################
 # plotting
@@ -126,14 +134,14 @@ plt.ylabel('Force [N]')
 plt.legend('Fd_x(t)')
 
 plt.subplot(2,1,2)
-plt.plot(t,Fd[:,1])
+p1 = plt.plot(t,Fd[:,1], label="Fd_z(t)")
 plt.hold('on')
-plt.plot(t,B[:,1])
-plt.plot(t,G[:,1])
+p2 = plt.plot(t,B[:,1], label="B")
+p3 = plt.plot(t,G[:,1], label="G")
 plt.title('Forces in vertical direction')
 plt.xlabel('time [s]')
 plt.ylabel('Force [N]')
-plt.legend('Fd_z(t)','B','G')
+#plt.legend([p1, p2, p3],["Fd_z(t)","B","G"])
 plt.show(True)
 
     
