@@ -14,7 +14,9 @@ w0 = 1.0;
 h = 10;
 g = 9.81;
 D = 0.2;
-Bouyancy = 9.9;
+rho = 1.255; 
+V = 1.0;
+Bouyancy = rho*V;
 t0 = 0;
 tmax = 10;
 N = 1000;
@@ -115,6 +117,24 @@ title('postition in the horizontal direction')
 xlabel('time [s]')
 ylabel('position [m]')
 legend('x(t)')
+
+figure()
+subplot(2,1,1)
+plot(t(:),Fd(:,1))
+title('Drag force in horizontal direction')
+legend('Fd_x(t)')
+ylabel('[N]')
+xlabel('time [s]')
+subplot(2,1,2)
+plot(t(:), Fd(:,2))
+hold on
+plot(t(:),B(:,2))
+plot(t(:),G(:,2))
+title('Forces in vertical direction')
+ylabel('[N]')
+xlabel('time [s]')
+legend('Fd','B','G')
+hold off
 
 vt_x
 vt_z

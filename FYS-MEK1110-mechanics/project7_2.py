@@ -8,14 +8,15 @@ import numpy as np
 ##################################################################
 # Constants
 
-m = 0.1     # [kg]
-g = 9.81    # [m/s^2]
-Bouyancy = 11.3  # [m/s^2]
-D = 0.1     # [kg/m]
-A = 0.2     # m^2
-eps = 0.001 # Default threshold
-vt_x = 0    # terminal velocity in x direction
-vt_z = 0    # terminal in z
+rho = 1.255       # [kg/m^3] density of air, 15degrees Celcius, 0moh.
+V = 1.0           # [m^3] really large balloon!
+m = 0.1           # [kg]
+g = 9.81          # [m/s^2]
+Bouyancy = rho*V  # [m/s^2]
+D = 0.1           # [kg/m]
+eps = 0.001       # Default threshold
+vt_x = 0          # terminal velocity in x direction
+vt_z = 0          # terminal in z
 
 ##################################################################
 # initial conditions
@@ -132,7 +133,7 @@ plt.plot(t,G[:,1])
 plt.title('Forces in vertical direction')
 plt.xlabel('time [s]')
 plt.ylabel('Force [N]')
-plt.legend('Fd_z(t)','G','B')
+plt.legend('Fd_z(t)','B','G')
 plt.show(True)
 
     
