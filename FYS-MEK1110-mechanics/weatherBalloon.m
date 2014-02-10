@@ -6,6 +6,9 @@ function main
 %%
 % constants
 
+radius = 0.3; % radius of balloon
+V = 4/3*pi*radius^3;
+A = 4*pi*radius^2;
 eps = 0.001
 vt_x = 0;
 vt_z = 0;
@@ -13,14 +16,20 @@ m = 0.1;
 w0 = 1.0;
 h = 10;
 g = 9.81;
-D = 0.2;
-rho = 1.255; 
-V = 1.0;
-Bouyancy = rho*V;
+rho = 1.255;     % 15degrees Celcius and at sealevel.
+rho2 = 1.293;    % 20degrees Celcius and at sealevel.
+Cd = 1.0;        % shapefactor
+D = 0.5*rho2*Cd*A;
+Bouyancy = rho2*V*g;
 t0 = 0;
 tmax = 10;
 N = 1000;
 dt = (tmax-t0)/N;
+
+A
+V
+D
+
 
 a = zeros(N,2);
 v = zeros(N,2);
