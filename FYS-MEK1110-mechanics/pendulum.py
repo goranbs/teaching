@@ -17,8 +17,8 @@ L0 = 1.0      # [m] lenght of wire, no force applied
 N = 10000       # number of timesteps
 
 # initial conditions
-v0 = 6.0        # [m/s] initial speed 
-theta0 = 30    # initial angle of wire, relative to vertical.
+v0 = 0.0 #6.0        # [m/s] initial speed 
+theta0 = 30          # initial angle of wire, relative to vertical.
 t0 = 0        
 tmax = 10
 dt = (float(tmax-t0)/float(N)) # timestep
@@ -31,28 +31,37 @@ v = np.zeros((N,2))
 S = np.zeros((N,2))
 G = np.zeros((N,2))
 
-theta[0] = theta0*(180/pi)
-r[0,0] = -L0*sin(theta[0])   # initial position
-r[0,1] = -L0*cos(theta[0])
-v[0,0] = v0*sin(theta[0])   # initial velocity
-v[0,1] = v0*cos(theta[0])
+##############################################
+# Initial condition nr.1 : (remember to set v0=0 !)
+theta[0] = theta0*(180/pi)  # initial angle, rad.
+r[0,0] = L0*sin(theta[0])   # x initial position
+r[0,1] = L0*cos(theta[0])   # y
+v[0,0] = v0*sin(theta[0])   # x initial velocity
+v[0,1] = v0*cos(theta[0])   # y
+###############################################
+# Initial condition nr.2 :
+#theta[0] = theta0*(180/pi)
+#r[0,0] = -L0*sin(theta[0])   # x initial position
+#r[0,1] = -L0*cos(theta[0])   # y
+#v[0,0] = v0*sin(theta[0])    # x initial velocity
+#v[0,1] = v0*cos(theta[0])    # y
 #r[1,0] = 1
 #r[1,1] = 0.5
 
 
 ########################################################################
 
-def wire(radius):
+def wire(radius,i):
     normR = linalg.norm(radius)
     if normR < L0:
-        print 'rope tension is zero!'
+        print '%g rope tension is zero!' % i
         return 0
     else:
         return -k*(normR - L0)*radius
 
 for i in range(N-1):
     G[i,1] = -m*g
-    S[i,:] = wire(r[i,:])
+    S[i,:] = wire(r[i,:],i)
     #print S[i,:]
     a[i,:] = (G[i,:] + S[i,:])/m
     v[i+1,:] = v[i,:] + a[i,:]*dt
@@ -63,7 +72,7 @@ for i in range(N-1):
     theta[i+1] = np.arcsin(r[i+1,0]/R)
     time[i+1] = time[i] + dt
 
-
+print 'Number of iterations=%g ' % (N-1)
 
 #########################################################################
 # plotting
