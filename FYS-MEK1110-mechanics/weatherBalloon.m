@@ -3,6 +3,9 @@ function main
 %   Project 7.2 - FYS-MEK1110 - mechanics - oblig #2
 %
 %                Weather Balloon
+%
+% Aim is to model the motion of a weather Balloon in two dimentons
+% as it is ascending up into the air. 
 %%
 % constants
 

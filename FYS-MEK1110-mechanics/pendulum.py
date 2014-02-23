@@ -11,7 +11,7 @@ import numpy as np
 
 # Constants
 m = 0.1       # [kg] mass of ball
-k = 200       # [N/kg]
+k = 2000       # [N/kg]
 g = 9.81      # [m/s^2] acceleration of gravity
 L0 = 1.0      # [m] lenght of wire, no force applied
 N = 10000       # number of timesteps
@@ -65,8 +65,8 @@ for i in range(N-1):
     #print S[i,:]
     a[i,:] = (G[i,:] + S[i,:])/m
     v[i+1,:] = v[i,:] + a[i,:]*dt
-    r[i+1,:] = r[i,:] + v[i+1,:]*dt
-
+    r[i+1,:] = r[i,:] + v[i+1,:]*dt # Euler-Chromer 
+    #r[i+1,:] = r[i,:] + v[i,:]*dt  # Forward Euler 
     R = linalg.norm(r[i+1,:])
 
     theta[i+1] = np.arcsin(r[i+1,0]/R)
@@ -74,13 +74,15 @@ for i in range(N-1):
 
 print 'Number of iterations=%g ' % (N-1)
 
+a[-1,:] = a[-2,:]
+
 #########################################################################
 # plotting
 
 import matplotlib.pyplot as plt
 
 
-figure()
+plt.figure()
 plt.subplot(3,1,1)
 plt.plot(a[:,0],a[:,1])
 plt.title('acceleration')
@@ -101,5 +103,12 @@ plt.title('position')
 plt.xlabel('x [m]')
 plt.ylabel('y [m]')
 plt.legend('r(theta)')
-plt.show(True)
+#plt.show(True)
 
+plt.figure()
+plt.plot(time[1:],theta[1:,0])
+plt.title('Angle as a function of time')
+plt.xlabel('time [s]')
+plt.ylabel('angle [rad]')
+plt.legend('theta(t)')
+plt.show(True)

@@ -1,6 +1,9 @@
 # Weather Balloon
 #
-# project 7.2 - FYS-MEK1110
+# project 7.2 - FYS-MEK1110 - Oblig #2 - Spring 2014
+#
+# The aim is to model the motion of a ascending balloon
+# as it is travels up into the air.
 
 from scitools.std import *
 import numpy as np
@@ -134,13 +137,16 @@ plt.ylabel('Force [N]')
 plt.legend('Fd_x(t)')
 
 plt.subplot(2,1,2)
-p1 = plt.plot(t,Fd[:,1], label="Fd_z(t)")
+p1 = plt.plot(t,Fd[:,1])1
 plt.hold('on')
-p2 = plt.plot(t,B[:,1], label="B")
-p3 = plt.plot(t,G[:,1], label="G")
+p2 = plt.plot(t,B[:,1])
+p3 = plt.plot(t,G[:,1])
 plt.title('Forces in vertical direction')
 plt.xlabel('time [s]')
 plt.ylabel('Force [N]')
+l1=plt.legend([p1],"Fd(t)")
+l2=plt.legend([p2],"B(t)")
+l3=plt.legend([p3],"G(t)")
 #plt.legend([p1, p2, p3],["Fd_z(t)","B","G"])
 plt.show(True)
 
