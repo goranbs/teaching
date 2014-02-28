@@ -72,16 +72,19 @@ def Xb(t):
 for i in range(n-1):
     F[i] = spring(x[i],t[i])
     R[i] = friction(F[i])
+
     a[i] = (F[i] - R[i])/m
     v[i+1] = v[i] + a[i]*dt
     xb[i] = Xb(t[i])
     x[i+1] = x[i] + v[i]*dt + xb[i]
+
     t[i+1] = t[i] + dt
 
-
-a[-1] = a[-2]
+# setting the last elements:
+a[-1] = a[-2]  
 xb[-1] = xb[-2]
 
+# Exact solution:
 x_exact = Xb(t) - (u/omega)*sin(omega*t)
 
 ###################################################
