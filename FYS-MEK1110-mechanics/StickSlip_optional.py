@@ -19,17 +19,23 @@ Created on Fri Feb 21 23:56:11 2014
 
 """
 from scitools.std import *
+from random import *
+import numpy as np
+
+random_number = random() # random floating point number in range (0,1)
+print random_number
 
 m = 0.1     # [kg] weight of box
-g = 9.81    # [m/s^2] acceleration of gravity
-b = 0.0     # [m] equilibrium length F = 0
+#g = 9.81    # [m/s^2] acceleration of gravity
+b = 0.1     # [m] equilibrium length F = 0
 v0 = 0.0    # [m/s] initial velocity
 u = 0.1     # [m/s] constant velocity of spring attachment
-k = 100     # [N/m] spring coefficient
+k = 0.01     # [N/m] spring coefficient
+K = 0.1     # [N/m] spring coefficient
 my_s = 0.6  # static friction
-my_d = 0.3  # dynamic friction
-N = m*g     # [N] Normal force
-omega = sqrt(k/m) # [1/s] freqency
+my_d = 0.5  # dynamic friction
+N = 1.0     # [N] Normal force
+M = 10      # number of blocks
 
 t0 = 0      # [s] start time
 tmax = 2.0  # [s] stop time of simulation
@@ -38,19 +44,23 @@ dt = (tmax-t0)/float(n) # timestep
 print 'Timestep dt=%0.4f' %dt
 x0 = 0
 
-a = zeros(n)
-v = zeros(n)
-x = zeros(n)
-xb = zeros(n)
-F = zeros(n)
-R = zeros(n)
+
+# matrices that holds the acceleration, velocity, position
+# and forces in the coloumns.
+a = np.zeros((M,n))
+v = np.zeros((M,n))
+x = np.zeros((M,n))
+xb = np.zeros((M,n))
+F = np.zeros((M,n))
+R = np.zeros((M,n))
 t = zeros(n)
 
-v[0] = v0
-x[0] = x0
+# initial positions:
+for i in range(M):
+    x(i,0) = b*i + b*0.2*(1-2*random()))
 
 ##############################################
-# functions:
+# function and for-loop:
 
 def friction(F):
     if F >= my_s*N:
@@ -60,79 +70,21 @@ def friction(F):
         #print 'my_s'
         return my_s*N
 
-def spring(x,t):
-    return (k/m)*(Xb(t) - x - b)
+for t in range(n):
+    for i in range(M):
+        F[i,t] = k*(b*i -x[i,t]) - K*(x[i+1,t] - x[i,t] -b) - K*(x[i,t] - x[i-1,t] -b)
+        R[i,t] = friction(F[i,t])
+        
+        a[i,t] = (F[i,t] -R[i,t]/m
+        v[i+1,t] = v[i,t] + a[i,t]*dt
+        x[i+1,t] = x[i,t] + v[i,t]*dt
 
-def Xb(t):
-    return u*t
+        t(i+1) = t(i) + dt
 
-################################################
-# the for-loop        
 
-for i in range(n-1):
-    F[i] = spring(x[i],t[i])
-    R[i] = friction(F[i])
-
-    a[i] = (F[i] - R[i])/m
-    v[i+1] = v[i] + a[i]*dt
-    xb[i] = Xb(t[i])
-    x[i+1] = x[i] + v[i]*dt + xb[i]
-
-    t[i+1] = t[i] + dt
-
-# setting the last elements:
-a[-1] = a[-2]  
-xb[-1] = xb[-2]
-
-# Exact solution:
-x_exact = Xb(t) - (u/omega)*sin(omega*t)
+for i in range(M):
+    a[i,-1] = a[i,-2]
 
 ###################################################
 #Plotting
-import matplotlib.pyplot as plt
 
-plt.figure()
-plt.plot(t[:],F[:],'r-o')
-plt.hold(True)
-plt.plot(t[:],R[:],'b-*')
-plt.legend(('F(t)', 'R(t)'))
-plt.title('Forces. dt=%.4f' % dt )
-plt.xlabel('time [s]')
-plt.ylabel('Force [N]')
-plt.hold(False)
-
-plt.figure()
-plt.subplot(3,1,1)
-plt.plot(t[:],a[:])
-plt.title('acceleration, velocity and position of box. dt=%.5f' % dt)
-plt.ylabel('acceleration [m/s^2]')
-plt.legend('a(t)')
-plt.subplot(3,1,2)
-plt.plot(t[:],v[:])
-plt.ylabel('Velocity [m/s]')
-plt.legend('v(t)')
-plt.subplot(3,1,3)
-plt.plot(t[:],x[:])
-plt.ylabel('position [m]')
-plt.legend('x(t)')
-plt.xlabel('time [s]')
-
-
-#plt.figure()
-#plt.plot(t,xb)
-#plt.ylabel('position [m]')
-#lt.xlabel('time [s]')
-#lt.legend('xb(t)')
-#plt.title('position of spring')
-
-plt.figure()
-plt.plot(t,x_exact)
-plt.hold(True)
-plt.plot(t,x)
-plt.ylabel('position [m]')
-plt.xlabel('time [s]')
-plt.legend(('x_{exact}(t)', 'x(t)'))
-plt.title('position of spring. u=%.2f' % u)
-
-
-plt.show(True)
