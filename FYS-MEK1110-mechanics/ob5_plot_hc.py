@@ -56,8 +56,8 @@ goranbs@kracken:~/goran/teaching/FYS-MEK1110-mechanics$ python ob5_plot_hc.py
 # we may test the value returned by fsolve by inserting it into 
 # the function sum_Forces_y:
 
-is_zero = sum_Forces_y(-0.41944804)
-print 'f) equilibrium position y=%.3f m, f(y)=%.8f' % (roots,is_zero) # -6.44469443145e-07 -which is very close to zero!! :-)
+is_zero = sum_Forces_y(roots[0])
+print 'f) equilibrium position y=%.3f m, f(y)=%.8f' % (roots[0],is_zero) # -6.44469443145e-07 -which is very close to zero!! :-)
 
 ##############################################################################
 # Finding the verical position of the cylinder as a function of time
