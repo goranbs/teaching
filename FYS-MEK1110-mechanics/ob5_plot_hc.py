@@ -19,20 +19,22 @@ import matplotlib.pyplot as plt
 plt.figure()                                         #figure #1
 plt.subplot(2,1,1)
 plt.plot(y,Fx)
-plt.title('Horizontal force compontent, springforce')
+plt.title('d) Horizontal force compontent, springforce')
 plt.legend(('Fx(y)'))
 plt.ylabel('[N]')
 plt.xlabel('[m]')
 
 plt.subplot(2,1,2)              
 plt.plot(y,Fy)
-plt.title('Vertical force compontent, springforce')
+plt.title('e) Vertical force compontent, springforce')
 plt.legend(('Fy(y)'))
 plt.ylabel('[N]')
 plt.xlabel('[m]')
 
 #plt.show(True)
 plt.show(False)
+print 'd) see plot'
+print 'e) see plot'
 
 #############################################################################
 # Find the equilibrium position of the cylinder, using 
@@ -44,7 +46,7 @@ def sum_Forces_y(y):
     return -k*y*(1-d/sqrt(d*d + y*y)) - m*g
 
 roots = fsolve(sum_Forces_y,0.0)
-print roots
+#print roots
 '''
 goranbs@kracken:~/goran/teaching/FYS-MEK1110-mechanics$ python ob5_plot_hc.py 
 [ 0.41944805]
@@ -55,7 +57,7 @@ goranbs@kracken:~/goran/teaching/FYS-MEK1110-mechanics$ python ob5_plot_hc.py
 # the function sum_Forces_y:
 
 is_zero = sum_Forces_y(-0.41944804)
-print is_zero # -6.44469443145e-07 -which is very close to zero!! :-)
+print 'f) equilibrium position y=%.3f m, f(y)=%.8f' % (roots,is_zero) # -6.44469443145e-07 -which is very close to zero!! :-)
 
 ##############################################################################
 # Finding the verical position of the cylinder as a function of time
@@ -89,14 +91,14 @@ ay[-1] = ay[-2]
 F_y[-1] = F_y[-2]
 G[-1] = G[-2]
 
-print 'g) highest position of cylinder=%.4f' % max(y_pos)
+print 'g) highest position of cylinder=%.4f m' % max(y_pos)
 
 ############################################################################
 # Plotting
 plt.figure()                                     # figure #2
 plt.subplot(3,1,1)
 plt.plot(t,ay)
-plt.title('Acceleration, Velocity and position')
+plt.title('g) Acceleration, Velocity and position')
 plt.xlabel('time [s]')
 plt.ylabel('acceleration [m/s^2]')
 plt.legend(('a(t)'))
@@ -111,6 +113,7 @@ plt.xlabel('time [s]')
 plt.ylabel('position [m]')
 plt.legend(('y(t)'))
 
+print 'g) see plots #2 and #3'
 #plt.show(False)
 
 plt.figure()                                      # figure #3
@@ -118,7 +121,7 @@ plt.plot(t,F_y,'g-')
 plt.hold(True)
 plt.plot(t,G,'r-')
 plt.plot(t,F_y[:] + G[:],'g-*')
-plt.title('Forces in vertical direction')
+plt.title('g) Forces in vertical direction')
 plt.xlabel('time [s]')
 plt.ylabel('Force [N]')
 plt.legend(('Fy(t)','G(t)','F_tot(t)'))
@@ -133,7 +136,7 @@ ek = 0.5*m*vy*vy
 
 plt.figure()                                       # figure #4
 plt.plot(t,ek,'r-*')
-plt.title('Kinetic energy as function f time')
+plt.title('h) Kinetic energy as function f time')
 plt.xlabel('time [s]')
 plt.ylabel('Kinetic energy [Nm]')
 plt.legend(('Ek(t)'))
@@ -160,9 +163,9 @@ def integrate(f,x0,x,dx):
     integral = 0.5*dx*integral
     return integral
 
-
-work = integrate(sum_Forces_y,roots[0],-1,0.01)
-print 'Work=%.7f Nm' % -work
+dy = 0.01
+work = integrate(sum_Forces_y,roots[0],-1,dy)
+print 'i) Work=%.7f Nm integral from y= %.4f to y=-1, with dy=%.4f' % (-work,roots,dy)
 
 
 #############################################################################
@@ -215,13 +218,13 @@ R[-1] = R[-2]
 N[-1] = N[-2]
 F_x[-1] = F_x[-2]
 
-print 'k) highest position of cylinder=%.4f' % max(y)
+print 'k) highest position of cylinder=%.4f m' % max(y)
 
 # Plotting
 plt.figure()                                     # figure #5
 plt.subplot(3,1,1)
 plt.plot(t,a)
-plt.title('Acceleration, Velocity and position')
+plt.title('j) Acceleration, Velocity and position')
 plt.xlabel('time [s]')
 plt.ylabel('acceleration [m/s^2]')
 plt.legend(('a(t)'))
@@ -243,25 +246,26 @@ plt.hold(True)
 plt.plot(t,G,'r-')
 plt.plot(t,R,'y-')
 plt.plot(t,F_y[:] + G[:] + R[:],'b-*')
-plt.title('Forces in vertical direction')
+plt.title('j) Forces in vertical direction')
 plt.xlabel('time [s]')
 plt.ylabel('Force [N]')
 plt.legend(('Fy(t)','G(t)','R(t)','F_tot(t)'))
 plt.hold(False)
 
+print 'j) see plots #5 and #5'
 plt.show(False)
 ############################################################################
-# Plot the kinetic energy as a function of time. exercise h)
+# Plot the kinetic energy as a function of time. exercise l)
 
 ek = 0.5*m*v*v
 
 plt.figure()                                     # figure #7
 plt.plot(t,ek,'r-*')
-plt.title('Kinetic energy as function f time')
+plt.title('l) Kinetic energy as function f time')
 plt.xlabel('time [s]')
 plt.ylabel('Kinetic energy [Nm]')
 plt.legend(('Ek(t)'))
-
+print 'l) see plot #7'
 ############################################################################
 # two springs 
 
@@ -286,7 +290,9 @@ lo2 = np.array([0, -0.5])
 #print lo2
 
 r[0,0] = -0.001     # initial x-position
-r[0,1] = 0.0  # initial y-position
+r[0,1] = 0.0        # initial y-position
+v[0,0] = 0.0        # initial velocity x
+v[0,1] = 0.0        # initial velocity y
 
 for i in range(n-1):
     Fk1[i,:] = -k1*(linalg.norm(r[i,:]+lo1[:]) - linalg.norm(lo1[:]))*(r[i,:]+lo1[:])/linalg.norm(r[i,:]+lo1)
@@ -311,7 +317,7 @@ a[-1,:] = a[-2,:]
 plt.figure()                                     # figure #8
 plt.subplot(3,1,1)
 plt.plot(t,a[:,1])
-plt.title('Acceleration, Velocity and position, in y-direction')
+plt.title('y-direction, r0=[%.3f,%.3f], v0=[%.3f,%.3f]'% (r[0,0],r[0,1],v[0,0],v[0,1]))
 plt.xlabel('time [s]')
 plt.ylabel('acceleration [m/s^2]')
 plt.legend(('ay(t)'))
@@ -329,7 +335,7 @@ plt.legend(('y(t)'))
 plt.figure()                                     # figure #9
 plt.subplot(3,1,1)
 plt.plot(t,a[:,0])
-plt.title('Acceleration, Velocity and position, in x-direction')
+plt.title('x-direction, r0=[%.3f,%.3f], v0=[%.3f,%.3f]'% (r[0,0],r[0,1],v[0,0],v[0,1]))
 plt.xlabel('time [s]')
 plt.ylabel('acceleration [m/s^2]')
 plt.legend(('ax(t)'))
@@ -351,7 +357,7 @@ plt.hold(True)
 plt.plot(t,Fk2[:,1],'r-')
 plt.plot(t,G[:,1],'m-')
 plt.plot(t,Fk1[:,1] + G[:,1] + Fk2[:,1],'b-*')
-plt.title('Forces in vertical direction')
+plt.title('two springs, forces in vertical direction')
 plt.xlabel('time [s]')
 plt.ylabel('Force [N]')
 plt.legend(('Fk1_y(t)','Fk2_y(t)','G(t)','F_y(t)'))
@@ -360,12 +366,12 @@ plt.hold(False)
 
 plt.figure()                                     # figure #11
 plt.plot(r[:,0], r[:,1], 'b-')
-plt.title('Position r')
+plt.title('Two springs. Position r')
 plt.xlabel('x [m]')
 plt.ylabel('y [m]')
 plt.legend('r')
 
-
+print '----------------------------------------------------'
 #plt.show(True)
 plt.show(True)
 
