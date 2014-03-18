@@ -153,21 +153,25 @@ plt.show(False)
 
 
 def integrate(f,x0,x,dx):
+    #noe er galt med denne integratoren.. finn ut av det, eller bruk quad.
     n = int((x - x0)/dx) # integration steps
     n = abs(n)
-
+    print 'in integral; n=%f' % n
     integral = 0
     for i in range(n-1):
-        integral += f(x0 + dx*(i+1)) + f(x0 + dx*i)
+        a = x0*(1+i*dx)
+        b = x0*(2+i*dx)
+        integral += (f(a) + f(b))
 
     integral = 0.5*dx*integral
     return integral
 
-dy = 0.01
-work = integrate(sum_Forces_y,roots[0],-1,dy)
+dy = 0.001
+work = integrate(sum_Forces_y,-0.415,-1,dy)
 print 'i) Work=%.7f Nm integral from y= %.4f to y=-1, with dy=%.4f' % (-work,roots,dy)
-
-
+from scipy.integrate import quad
+work2 = quad(sum_Forces_y,-0.414,-1)
+print work2
 #############################################################################
 # Modify the program to include the effect of friction.
 # my_d = 0.1                                       exercise j)
@@ -260,11 +264,14 @@ plt.show(False)
 ek = 0.5*m*v*v
 
 plt.figure()                                     # figure #7
-plt.plot(t,ek,'r-*')
-plt.title('l) Kinetic energy as function f time')
-plt.xlabel('time [s]')
+plt.plot(y,ek,'r-*')
+plt.title('l) Kinetic energy as function of height')
+#plt.title('l) Kinetic energy as function f time')
+plt.xlabel('y [m]')
+#plt.xlabel('time [s]')
 plt.ylabel('Kinetic energy [Nm]')
-plt.legend(('Ek(t)'))
+plt.legend(('Ek(y)'))
+#plt.legend(('Ek(t)'))
 print 'l) see plot #7'
 ############################################################################
 # two springs 
@@ -373,8 +380,4 @@ plt.legend('r')
 
 print '----------------------------------------------------'
 #plt.show(True)
-plt.show(True)
-
-
-
-                       
+plt.show(False)
