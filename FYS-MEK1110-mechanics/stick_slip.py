@@ -56,13 +56,13 @@ for i in range(n-1):
     xb[i] = b + u*t[i]
     F[i] = k*(xb[i]-x[i]-b)
     if (v[i] == 0):
-        R[i] = F[i]
+        R[i] = -F[i]
         if (abs(R[i]) >= my_s*N):
-            R[i] = my_d*N
+            R[i] = -my_d*N
     else:
-        R[i] = my_d*N
+        R[i] = -my_d*N
 
-    a[i] = (F[i] - R[i])/m
+    a[i] = (F[i] + R[i])/m
     v[i+1] = v[i] + a[i]*dt
     if ((v[i+1] < 0 and v[i] > 0) or (v[i+1] > 0 and v[i] < 0)):
         print "if statement is true, t=%.3f" % t[i]         
