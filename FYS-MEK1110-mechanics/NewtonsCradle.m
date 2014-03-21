@@ -3,7 +3,7 @@ function NewtonsCradle()
 
 N = 3;
 m = 1.0;
-k =100.0;
+k =1000.0;
 q = 1.0;
 d = 0.1;
 v0 = 1.0;
@@ -53,11 +53,11 @@ end
 % Plotting the results:
 
 fontsize=18;
-tmp = zeros(N,1);
-figure()
+legends = ['ball 1', 'ball 2', 'ball 3'];
+f = figure()
 for j=1:N
     plot(t,v(:,j));
-    tmp(j,1) = j;
+    tmp = ['Ball ' num2str(j,'%g')];
     if j==1
         hold on;
     end
@@ -67,11 +67,13 @@ for j=1:N
 end
 
 set(gca,'FontSize',fontsize)
+%get(0,'DefaultAxesColorOrder')
 name = ['Newtons Cradle. k=' num2str(k,'%.1f') ' q=' num2str(q,'%.1f')];
 title(name)
 xlabel('t [s]')
 ylabel('v,[m/s]')
-legend(tmp)
-
+legend('ball 1','ball 2', 'ball 3')
+Title = ['plot_NewtonsCradle_k' num2str(k,'%g') '_q' num2str(q,'%g') '.png'];
+print(f,'-dpng', Title) % save figure as png with name 'name'
 
 end
