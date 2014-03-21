@@ -11,15 +11,15 @@ def force(dx,d,k,q):
     return F
 
 N = 3      # Number of balls
-m = 0.1     # mass of balls
+m = 1.0     # mass of balls
 k = 100.0    # [N/m] 
 #q = 4.0      # exponent
 #q = 3.0/4   # exponent 
 q = 1.0     # exponent
 d = 0.1     # [m] distance between balls
 v0 = 1.1    # [m/s] initial velocity of ball A
-time = 0.1    # [s] simulation time
-dt = 0.0001  # [s] timestep
+time = 1.0    # [s] simulation time
+dt = 0.001  # [s] timestep
 n = int(round(time/dt)) # number of timesteps
 x = zeros((n,N),float) # position of every ball (0,1,...,N) at time ti = 0,1,2,...,n
 v = x.copy()
@@ -32,13 +32,14 @@ v[0,0] = v0       # initial velocity of ball 0
 for i in range(N):
     x[0,1] = d*i # intial position of ball 0,1,...,N
 
-for i in range(n-1):
+for i in range(n-1):                         # Timeloop
     # Find force in vector F
-    F = zeros(N,float)
-    for j in range(1,N):
+    F = zeros(N,float)                       # update forces
+    for j in range(1,N):                     # loop over balls 1:N = 1,2...,N
+        #print 'loop range(1,N), j=%g' %j
         dx = x[i,j] - x[i,j-1]
         F[j] = F[j] + force(dx,d,k,q)
-    for j in range(N-1):
+    for j in range(N-1):                     # loop over 
         dx = x[i,j+1] - x[i,j]
         F[j] = F[j] - force(dx,d,k,q)
 
@@ -49,6 +50,10 @@ for i in range(n-1):
     x[i+1] = x[i] + v[i+1]*dt
     t[i+1] = t[i] + dt
     
+
+#########################################################
+# plotting:
+
 legends = []
 figure()
 for j in range(N):
@@ -59,8 +64,6 @@ for j in range(N):
         hold('on')
     if j==N-1:
         hold('off')
-
-
 
 title('Velocity. Number of balls N=%g' % N)
 xlabel('time [s]')
@@ -78,8 +81,6 @@ for j in range(N):
         hold('on')
     if j==N-1:
         hold('off')
-
-
 
 title('Position of balls. Number of balls N=%g' % N)
 xlabel('time [s]')
