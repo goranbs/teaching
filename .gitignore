@@ -1,0 +1,3 @@
+# Git ignore file
+# ignore temporary files:
+*~
