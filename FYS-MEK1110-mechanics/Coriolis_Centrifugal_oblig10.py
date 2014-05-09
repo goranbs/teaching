@@ -50,14 +50,14 @@ max_it = 0
 for t in range(n-1):
    #                                  (vz*cos(phi)   - vy*sin(phi)) i  +  vx*sin(phi) j  +  vx*cos(phi) k 
     Fc[t,:] = -2*omega*np.array([(v[t,2]*cos(phi) - v[t,1]*sin(phi)) , v[t,0]*sin(phi) , v[t,0]*cos(phi) ])    
-    #Fs[t,:] = -(omega**2)*np.array([(-R[t,0]*cos(phi)**2 - sin(phi)*((R[t,2])*cos(phi) - R[t,1]*sin(phi)) ) , (sin(phi)*((R[t,2])*cos(phi) - r[t,1]*sin(phi))) , cos(phi)*(R[t,1]*sin(phi) - (R[t,2])*cos(phi)) ])    
-    Fs[t,:] = -(omega**2*Re)*np.array([0,sin(phi)*cos(phi), cos(phi)**2])   
+    Fs[t,:] = -(omega**2)*np.array([(-R[t,0]*cos(phi)**2 - sin(phi)*((R[t,2])*cos(phi) - R[t,1]*sin(phi)) ) , (sin(phi)*((R[t,2])*cos(phi) - r[t,1]*sin(phi))) , cos(phi)*(R[t,1]*sin(phi) - (R[t,2])*cos(phi)) ])    
+    #Fs[t,:] = -(omega**2*Re)*np.array([0,sin(phi)*cos(phi), cos(phi)**2])   
     Fd[t,:] = -D*abs(sqrt(v[t,0]*v[t,0] + v[t,1]*v[t,1] + v[t,2]*v[t,2]))*v[t,:] 
     G = np.array([0,0,-g])
     
-    a[t,:] = (Fc[t,:] + G + Fs[t,:] + Fd[t,:]) # including centrifugal & drag
+    #a[t,:] = (Fc[t,:] + G + Fs[t,:] + Fd[t,:]) # including centrifugal & drag
     #a[t,:] = (Fc[t,:] + G + Fs[t,:]) # including centrifugal 
-    #a[t,:] = (Fc[t,:] + G) # without centrifugal 
+    a[t,:] = (Fc[t,:] + G) # without centrifugal 
         
     v[t+1,:] = v[t,:] + a[t,:]*dt
     r[t+1,:] = r[t,:] + v[t+1,:]*dt
