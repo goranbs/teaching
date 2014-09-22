@@ -25,21 +25,21 @@ z2 = [0,0, 5.11, 9.45, 13.87]
 # west wing
 # (2)
 # fall time from 1.floor
-t11 = avg([3.62, 3.83, 3.41, 3.60])
-t12 = avg([2.19, 1.98, 2.40, 2.17])
-t14 = avg([1.88, 2.02, 1.74, 1.93])
+t11 = avg([3.62, 3.83, 3.41, 3.60]) # mass 1
+t12 = avg([2.19, 1.98, 2.40, 2.17]) # mass 2
+t14 = avg([1.88, 2.02, 1.74, 1.93]) # mass 4
 # fall time from 2.floor
-t21 = avg([6.63, 6.69, 6.48, 6.85])
-t22 = avg([4.31, 3.97, 4.47, 5.00])
-t24 = avg([3.43, 2.84, 3.53, 3.78])
+t21 = avg([6.63, 6.69, 6.48, 6.85]) # 1
+t22 = avg([4.31, 3.97, 4.47, 5.00]) # 2
+t24 = avg([3.43, 2.84, 3.53, 3.78]) # 4
 # fall time from 3.floor
-t31 = avg([10.0, 9.21, 10.80, 10.18])
-t32 = avg([5.79, 5.55, 6.02, 5.84])
-t34 = avg([4.53, 4.96, 5.00, 4.81])
+t31 = avg([10.0, 9.21, 10.80, 10.18]) # 1
+t32 = avg([5.79, 5.55, 6.02, 5.84])   # 2
+t34 = avg([4.53, 4.96, 5.00, 4.81])   # 4
 # (3)
-T1 = [0, t11, t21, t31]
-T2 = [0, t12, t22, t32]
-T4 = [0, t14, t24, t34]
+T1 = [0, t11, t21, t31] # average fall time 1.st floor
+T2 = [0, t12, t22, t32] # avg fall time 2.floor
+T4 = [0, t14, t24, t34] # avg fall time 3.floor
 # (5)
 mplt.figure()
 mplt.plot(z1, T1, '.-r')
@@ -47,11 +47,11 @@ mplt.plot(z1, T2, '.-b')
 mplt.plot(z1, T4, '.-g')
 mplt.xlabel('Drop [m]')
 mplt.ylabel('Fall time [s]')
-mplt.legend(['Rel. mass 1', 'Rel.mass 2', 'Rel. mass 4'])
+mplt.legend(['Rel. mass 1', 'Rel. mass 2', 'Rel. mass 4'])
 mplt.title('Fall time as function of fall height for three relative masses')
-10# comments about the result of the plot
+# comments about the result of the plot
 print '\nThe plot shows three fairly straight lines which'
-print 'indicates that the velocity is constaint for all heights.'
+print 'indicates that the velocity is constant for all heights.'
 print 'The cupcake cups acheive terminal velocity pretty fast after'
 print 'initialization. The terminal velocity differ with the mass.\n'
 # (6)
@@ -74,8 +74,14 @@ mplt.title('terminal velocity prop. sqrt(m)')
 mplt.legend(['T1/sqrt(2)', 'T1/2'])
 mplt.show()
 
-
-v_term_cupcake = 10
+vel1 = numpy.divide(numpy.array(T1), numpy.array(z1))
+vel2 = numpy.divide(numpy.array(T2), numpy.array(z1))
+vel4 = numpy.divide(numpy.array(T4), numpy.array(z1))
+avgvel1 = avg(vel1[1:])
+avgvel2 = avg(vel2[1:])
+avgvel4 = avg(vel4[1:])
+print vel1, vel2, vel4
+v_term_cupcake = avgvel1
 
 rho = 1.2041
 r = (6.5/2)*0.01
